@@ -44,6 +44,18 @@ with open(proj_dst+'/settings.py') as f:
 			secret_key = line
 print('building', proj_name, end='')
 app_names = sys.argv[1:]
+
+if os.path.exists(proj_root+'/create_base_requirements.txt'):
+	with open('./create_base_requirements.txt') as f:
+		for line in f:
+			if line not in app_names:
+				app_names.append(line.strip())
+else:
+	f = open('./create_base_requirements.txt','w')
+	for app_name in app_names:
+		f.write(app_name+'\n')
+	f.close()
+
 urls_project.urls_project(app_name=app_names, dst=proj_dst+'/urls.py', proj_name=proj_name)
 views_project.views_project(dst=proj_dst+'/views.py')
 settings_project.settings_project(app_name=app_names, dst=proj_dst+'/settings.py', secret_key=secret_key, project_name = proj_name)
