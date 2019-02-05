@@ -39,6 +39,8 @@ def settings_project(app_name, dst, proj_name):
 STATIC_DIR = os.path.join(BASE_DIR, 'static')\n"
             if "'DIRS': []," in contents[i]:
                 contents[i] = "        'DIRS': [TEMPLATE_DIR,],\n"
+            if "AUTH_USER_MODEL =" in contents[i]:
+                auth_model = 0
 
     # INSTALLED_APPS
     for i in range(len(contents)):
@@ -63,19 +65,17 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')\n"
 
     del contents[start_installed_index - 1:end_installed_index+1]
     j = 0
-    contents.insert(start_installed_index - 1, "\nINSTALLED_APPS = [\n")
+    contents.insert(start_installed_index - 1, "INSTALLED_APPS = [\n")
     # for i in range(start_installed_index, end_installed_index + len(app_name)):
     
     for j in range(len(arr)-1, -1, -1):
         if arr[j] != '':
             contents.insert(start_installed_index,"    '"+arr[j]+"',\n")
-        
-    contents.insert(start_installed_index + len(arr), ']\n')
-    # if auth_model:
-    #     contents.insert(end_installed_index + len(app_name) + 1, "\nAUTH_USER_MODEL = 'accounts.Account'\n")
-    print("**********After INSTALLED_APPS*********")
-    for line in contents:
-        print(line)  
+        if j == 0:
+            contents.insert(start_installed_index + len(arr), ']\n')
+    if auth_model:
+        contents.insert(start_installed_index + len(arr) + 1, "\nAUTH_USER_MODEL = 'accounts.Account'\n")
+  
    
 
 
@@ -93,7 +93,6 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')\n"
         elif ']' in contents[i] and middleware_apps:
             middleware_apps = 0
             end_middleware_index = i
-    print(start_middleware_index, end_middleware_index)
     arr = []
     for i in range(start_middleware_index, end_middleware_index):
         contents[i] = contents[i].strip().replace("\',",'').replace("'",'')
@@ -104,16 +103,12 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')\n"
 
     del contents[start_middleware_index - 1:end_middleware_index+1]
     j = 0
-    contents.insert(start_middleware_index - 1, "\nMIDDLEWARE = [\n")
+    contents.insert(start_middleware_index - 1, "MIDDLEWARE = [\n")
     for j in range(len(arr)-1, -1, -1):
         if arr[j] != '':  
             contents.insert(start_middleware_index,"    '"+arr[j]+"',\n")
     contents.insert(start_middleware_index + len(arr), ']\n')
-    print("**********After MIDDLEWARE*********")
-    for line in contents:
-        print(line)
-    # for line in contents:
-    #     print(line)
+
 
     # END of FILE Appends
     if contents[-1] != '#updated':
@@ -126,7 +121,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')\n\
 LOGIN_URL = 'user_login'\n\
 LOGIN_REDIRECT_URL = 'index'\n\
 LOGOUT_REDIRECT_URL = 'index'\n\
-#updated")
+#updated DO NOT REMOVE THIS LINE - IF REMOVED IT WILL BREAK UPDATES")
     
     f = open(proj_name + '/settings.py', 'w')
     for line in contents:
