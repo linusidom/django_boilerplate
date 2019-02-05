@@ -15,9 +15,11 @@ From within the project root, run the create_base.py file.
 test_project Admin$ >
 
 # Create apps within django proect
-```test_project Admin$ django-admin startapp accounts
+```
+test_project Admin$ django-admin startapp accounts
 test_project Admin$ django-admin startapp test1_apps
-test_project Admin$ django-admin startapp test2_apps```
+test_project Admin$ django-admin startapp test2_apps
+```
 
 # Run create_base.py from within the project_root
 ~ Admin$ ../django_create_base/create_base.py accounts test_app1 test_app2
