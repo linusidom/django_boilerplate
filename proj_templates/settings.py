@@ -1,73 +1,139 @@
 import os
 import shutil
 
-def settings_project(app_names=['accounts','campaigns','locations']):
+def settings_project(app_name, dst, proj_name):
+    auth_model = 0
+    installad_apps = 0
+    middleware_apps = 0
+    arr = []
 
-    content = ""
+    if 'accounts' in app_name:
+        auth_model = 1
 
     src_proj_files = '/Users/Admin/coding/django/django_create_base/proj_files'
 
     # Copy the settings file from the project directory to another settings file in the same project directory
     
     proj_root = os.getcwd()
-    proj_name = os.getcwd().split('/')[-1]
-    print('test', proj_root, proj_name)
+    # proj_name = os.getcwd().split('/')[-1]
+    # print('starting...', end='')
+    # shutil.copy(src_proj_files+'/settings_orig.py', proj_name+'/settings.py')
     shutil.copy(proj_name+'/settings.py', proj_name+'/settings_orig.py')
 
-    # update the settings file with the 
-    # templates Dirs
-    f = open(proj_name+'/settings_new.py','w')
-    with open(proj_name+'/settings_orig.py') as s:
-        lines = s.readlines()
-        for i in range(len(lines)):
-            lines[i].strip()
-            if lines[i].startswith('BASE_DIR') and not lines[i+1].startswith('TEMPLATE_DIR'):
-                
-                lines[i] += "TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')\n\
-STATIC_DIR = os.path.join(BASE_DIR, 'static')\n"
-            if "'DIRS': []," in lines[i]:
-                lines[i] = "        'DIRS': [TEMPLATE_DIR,],\n"
-            if "'django.contrib.staticfiles'," in lines[i] and 'livereload' not in lines[i+1]:
-                lines[i] += "    'livereload',\n    'rest_framework',\n"
-                for app_name in app_names:
-                    lines[i] += "    '"+app_name+"',\n"
-            if "'django.middleware.clickjacking.XFrameOptionsMiddleware'," in lines[i] and 'livereload' not in lines[i+1]:
-                lines[i] += "    'livereload.middleware.LiveReloadScript',\n"
-            print(lines[i], i)
-            try:    
-                if lines[i].startswith("STATIC_URL = ") and not lines[i+1].startswith("STATICFILES_DIRS"):
-                    lines[i] += "STATICFILES_DIRS = [STATIC_DIR,]\n\
-\n\
-STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')\n\
-MEDIA_URL = '/media/'\n\
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')\n\
-\n\
-LOGIN_REDIRECT_URL = 'index'\n\
-LOGOUT_REDIRECT_URL = 'index'\n\
-LOGIN_URL = 'user_login'\n"
-            except:
-                lines[i] += "STATICFILES_DIRS = [STATIC_DIR,]\n\
-\n\
-STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')\n\
-MEDIA_URL = '/media/'\n\
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')\n\
-\n\
-LOGIN_REDIRECT_URL = 'index'\n\
-LOGOUT_REDIRECT_URL = 'index'\n\
-LOGIN_URL = 'user_login'"
-            f.write(str(lines[i]))
-    f.write('\n')
+
+    f = open(proj_name + '/settings_orig.py','r')
+    contents = f.readlines()
     f.close()
 
-    # INSTALLED APPS, livereload, rest_framework
+    # if contents[-1] == '#updated':
+    #     print('Settings already updated')
+    #     return
+    
+    # "TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')"
+    # "STATIC_DIR = os.path.join(BASE_DIR, 'static')"
+    # "'DIRS': [TEMPLATE_DIR,],"
+    if contents[-1] != '#updated':    
+        for i in range(len(contents)):
+            if "BASE_DIR = " in contents[i]:
+                contents[i] += "TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')\n\
+STATIC_DIR = os.path.join(BASE_DIR, 'static')\n"
+            if "'DIRS': []," in contents[i]:
+                contents[i] = "        'DIRS': [TEMPLATE_DIR,],\n"
 
-    if 'accounts' in app_names:
+    # INSTALLED_APPS
+    for i in range(len(contents)):
+        if "INSTALLED_APPS" in contents[i]:
+            installad_apps = 1
+            start_installed_index = i + 1
+        elif ']' in contents[i] and installad_apps:
+            installad_apps = 0
+            end_installed_index = i
+        
+    for i in range(start_installed_index, end_installed_index):
+        contents[i] = contents[i].strip().replace("\',",'').replace("'",'')
+        arr.append(contents[i])
+    if 'livereload' not in arr:
+        arr.append('livereload')
+    if 'rest_framework' not in arr:
+        arr.append('rest_framework')
+    for app in app_name:
+        if app not in arr:
+            arr.append(app)
+        
 
-        content += "\nAUTH_USER_MODEL = 'accounts.Account'\n"
- 
+    del contents[start_installed_index - 1:end_installed_index+1]
+    j = 0
+    contents.insert(start_installed_index - 1, "\nINSTALLED_APPS = [\n")
+    # for i in range(start_installed_index, end_installed_index + len(app_name)):
+    
+    for j in range(len(arr)-1, -1, -1):
+        if arr[j] != '':
+            contents.insert(start_installed_index,"    '"+arr[j]+"',\n")
+        
+    contents.insert(start_installed_index + len(arr), ']\n')
+    # if auth_model:
+    #     contents.insert(end_installed_index + len(app_name) + 1, "\nAUTH_USER_MODEL = 'accounts.Account'\n")
+    print("**********After INSTALLED_APPS*********")
+    for line in contents:
+        print(line)  
+   
 
-    shutil.copy(proj_name+'/settings_new.py', proj_name+'/settings.py')    
+
+
+
+
+    # # MIDDLEWARE
+    # 'livereload.middleware.LiveReloadScript'
     
 
-if __name__ == '__main__':
-    settings_project()
+    for i in range(len(contents)):
+        if "MIDDLEWARE = [" in contents[i]:
+            middleware_apps = 1
+            start_middleware_index = i + 1
+        elif ']' in contents[i] and middleware_apps:
+            middleware_apps = 0
+            end_middleware_index = i
+    print(start_middleware_index, end_middleware_index)
+    arr = []
+    for i in range(start_middleware_index, end_middleware_index):
+        contents[i] = contents[i].strip().replace("\',",'').replace("'",'')
+        # print('**', contents[i])
+        arr.append(contents[i])
+    if 'livereload.middleware.LiveReloadScript' not in arr:
+        arr.append('livereload.middleware.LiveReloadScript')
+
+    del contents[start_middleware_index - 1:end_middleware_index+1]
+    j = 0
+    contents.insert(start_middleware_index - 1, "\nMIDDLEWARE = [\n")
+    for j in range(len(arr)-1, -1, -1):
+        if arr[j] != '':  
+            contents.insert(start_middleware_index,"    '"+arr[j]+"',\n")
+    contents.insert(start_middleware_index + len(arr), ']\n')
+    print("**********After MIDDLEWARE*********")
+    for line in contents:
+        print(line)
+    # for line in contents:
+    #     print(line)
+
+    # END of FILE Appends
+    if contents[-1] != '#updated':
+        contents.insert(len(contents), "STATICFILES_DIRS = [STATIC_DIR,]\n\
+\n\
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')\n\
+MEDIA_URL = '/media/'\n\
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')\n\
+\n\
+LOGIN_URL = 'user_login'\n\
+LOGIN_REDIRECT_URL = 'index'\n\
+LOGOUT_REDIRECT_URL = 'index'\n\
+#updated")
+    
+    f = open(proj_name + '/settings.py', 'w')
+    for line in contents:
+        # print(line)
+        f.write(line)
+    f.close()
+
+
+# if __name__ == '__main__':
+#     settings_project(app_name = ['accounts', 'campaigns'],dst='/', proj_name='test_bidding')

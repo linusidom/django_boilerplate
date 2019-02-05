@@ -11,10 +11,12 @@ import proj_templates.proj_base as base_project
 
 
 from app import forms, urls, views, models
+from app.app_api import api_models, api_views, api_urls 
 from app.app_templates import (app_confirm_delete,
 							app_detail, app_form,
 							app_list, base, index,
 							signup, invalid_form)
+
 
 
 src_templates = '/Users/Admin/coding/django/django_create_base/templates/'
@@ -38,27 +40,12 @@ if not os.path.exists(proj_root+'/manage.py'):
 	print("You're in the wrong folder...", proj_root)
 	exit(1)
 
-with open(proj_dst+'/settings.py') as f:
-	for line in f:
-		if 'SECRET_KEY' in line:
-			secret_key = line
 print('building', proj_name, end='')
 app_names = sys.argv[1:]
 
-if os.path.exists(proj_root+'/create_base_requirements.txt'):
-	with open('./create_base_requirements.txt') as f:
-		for line in f:
-			if line not in app_names:
-				app_names.append(line.strip())
-else:
-	f = open('./create_base_requirements.txt','w')
-	for app_name in app_names:
-		f.write(app_name+'\n')
-	f.close()
-
 urls_project.urls_project(app_name=app_names, dst=proj_dst+'/urls.py', proj_name=proj_name)
 views_project.views_project(dst=proj_dst+'/views.py')
-settings_project.settings_project(app_name=app_names, dst=proj_dst+'/settings.py', secret_key=secret_key, project_name = proj_name)
+settings_project.settings_project(app_name=app_names, dst=proj_dst+'/settings.py', proj_name = proj_name)
 base_project.base_project(app_name=app_names, dst=src_templates+'/base.html')
 
 
@@ -78,7 +65,7 @@ print('...finished')
 # Proejct App Folders and Files (URLS, Views, Settings, Base, etc.)
 for app_name in app_names:
 	# if app_name != sys.argv[0]:
-	app_templates = app_name+'/templates/'+app_name
+	# app_templates = app_name+'/templates/'+app_name
 	print('building', app_name, end='')
 	
 	# App Folder
@@ -116,4 +103,28 @@ for app_name in app_names:
 			signup.signup(app_name=app_name, dst=app_name+'/templates/'+app_name+'/signup.html')
 			invalid_form.invalid_form(app_name=app_name, dst=app_name+'/templates/'+app_name+'/invalid_form.html')
 
+	# API's
+	if not os.path.exists(app_name+'/api'):
+		os.mkdir(app_name+'/api/')
+		api_models.api_models(app_name=app_name, dst=app_name+'/api/models.py')
+		api_urls.api_urls(app_name=app_name, dst=app_name+'/api/urls.py')
+		api_views.api_views(app_name=app_name, dst=app_name+'/api/views.py')
+		
+
 	print('...finished')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
