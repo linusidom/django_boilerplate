@@ -30,29 +30,29 @@ test_project Admin$ django-admin startapp test2_apps
 ~ Admin$ ../django_create_base/create_base.py accounts test_app1 test_app2
 ```
 
-The following files are created and populated under ~/project_root/:
+## Project Files ~/project_root/project_root
+Settings.py updated with all the necessary apps, templates, static_url, static_root, media_url, media_root, login/logout_redirect_url and login_url
+Urls.py updated with all the new apps, login/logout, and self-service password management
+Views.py populated with basic redirect to index.html
 
-# Accounts is setup as follows (if present)
+## Project Templates
+Base.html is setup with basic links to all apps and if Account is present, Login, Logout and Link to Account Detail
+registration folders is created with all files necessary for self-service password maintenance
+
+## Accounts is setup as follows (if present)
 accounts/templates/accounts -> all template files based on model name "Account"
 accounts/models.py, views.py, urls.py, forms.py
 - Account Model is based on AbstractUser
 - Custom Signup View and login with E-mail
 
-# All other apps are setup based on the following
-
+## All other apps are setup based on the following
 test1_apps/templates/test1_apps -> all template files based on model name "Test1_app"
 test1_apps/models.py, views.py, urls.py, forms.py, utils.py
 - Test1_app Model is based on models.Model
 - Test1_app models.py comes with name and slug fields with randomizing script for slug field from utils.py
 
-# Project Templates
-Base.html is setup with basic links to all apps and if Account is present, Login, Logout and Link to Account Detail
-registration folders is created with all files necessary for self-service password maintenance
 
-# Project Files ~/project_root/project_root
-Settings.py updated with all the necessary apps, templates, static_url, static_root, media_url, media_root, login/logout_redirect_url and login_url
-Urls.py updated with all the new apps, login/logout, and self-service password management
-Views.py populated with basic redirect to index.html
+
 
 
 
