@@ -5,14 +5,18 @@ This fill structure helps create the inital files needed to start a custom Accou
 Ex Usage
 Copy the folder structure to a folder outside of the main project structure
 
-<~ Admin$ git clone https://github.com/linusidom/django_create_base.git> 
+```
+~ Admin$ git clone https://github.com/linusidom/django_create_base.git
+```
 
 From within the project root, run the create_base.py file.
 
 # Create base django project
-<~ Admin$ django-admin startproject test_project
+```
+~ Admin$ django-admin startproject test_project
 ~ Admin$ cd test_project
-test_project Admin$ >
+test_project Admin$ 
+```
 
 # Create apps within django proect
 ```
@@ -22,7 +26,9 @@ test_project Admin$ django-admin startapp test2_apps
 ```
 
 # Run create_base.py from within the project_root
+```
 ~ Admin$ ../django_create_base/create_base.py accounts test_app1 test_app2
+```
 
 The following files are created and populated under ~/project_root/:
 
