@@ -14,12 +14,7 @@ def settings_project(app_name, dst, proj_name):
 
     # Copy the settings file from the project directory to another settings file in the same project directory
     
-    proj_root = os.getcwd()
-    # proj_name = os.getcwd().split('/')[-1]
-    # print('starting...', end='')
-    # shutil.copy(src_proj_files+'/settings_orig.py', proj_name+'/settings.py')
     shutil.copy(proj_name+'/settings.py', proj_name+'/settings_orig.py')
-
 
     f = open(proj_name + '/settings_orig.py','r')
     contents = f.readlines()
