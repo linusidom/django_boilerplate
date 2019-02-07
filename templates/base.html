@@ -22,6 +22,7 @@
 			<li><a href="{% url 'accounts:account_list' %}">Account</a></li>
 			<li><a href="{% url 'campaigns:campaign_list' %}">Campaign</a></li>
 			<li><a href="{% url 'locations:location_list' %}">Location</a></li>
+			<li><a href="{% url 'timeslots:timeslot_list' %}">Timeslot</a></li>
 		<li><a href="{% url 'accounts:signup' %}">Signup</a></li>
 		<li><a href="{% url 'user_login' %}">Login</a></li>
 		{% if user.is_authenticated %}

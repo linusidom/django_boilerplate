@@ -2,6 +2,12 @@
 
 This fill structure helps create the inital files needed to start a custom Accounts App, any supporting apps with forms, models, views and urls arlready preset and updates the settings files with the necessary components.
 
+Required Packages:
+```
+pip install livereload
+pip install djangorestframework
+```
+
 Ex Usage
 Copy the folder structure to a folder outside of the main project structure
 
@@ -11,14 +17,14 @@ Copy the folder structure to a folder outside of the main project structure
 
 From within the project root, run the create_base.py file.
 
-# Create base django project
+## Create base django project
 ```
 ~ Admin$ django-admin startproject test_project
 ~ Admin$ cd test_project
 test_project Admin$ 
 ```
 
-# Create apps within django proect
+## Create apps within django proect
 ```
 test_project Admin$ django-admin startapp accounts
 test_project Admin$ django-admin startapp test1_apps
