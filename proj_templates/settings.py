@@ -27,7 +27,7 @@ def settings_project(app_name, dst, proj_name):
     # "TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')"
     # "STATIC_DIR = os.path.join(BASE_DIR, 'static')"
     # "'DIRS': [TEMPLATE_DIR,],"
-    if contents[-1] != '#updated':    
+    if '#updated' not in contents[-1]:    
         for i in range(len(contents)):
             if "BASE_DIR = " in contents[i]:
                 contents[i] += "TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')\n\
@@ -106,7 +106,7 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')\n"
 
 
     # END of FILE Appends
-    if contents[-1] != '#updated':
+    if '#updated' not in contents[-1]:    
         contents.insert(len(contents), "STATICFILES_DIRS = [STATIC_DIR,]\n\
 \n\
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')\n\

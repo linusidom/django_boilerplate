@@ -65,7 +65,6 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\n\n
 
 	else:
 		existing_apps = []
-		print('other')
 		for i in range(len(contents)):
 			if "urlpatterns = [" in contents[i]:
 				urlpatterns_paren = 1
@@ -90,7 +89,7 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\n\n
 		j = 0
 		contents.insert(start_urlpatterns_index - 1, "urlpatterns = [\n")
 		# for i in range(start_urlpatterns_index, end_urlpatterns_index + len(app_name)):
-
+		print(len(arr), start_urlpatterns_index)
 		for j in range(len(arr)-1, -1, -1):
 			if arr[j] != '':
 				contents.insert(start_urlpatterns_index,"    "+arr[j]+"\n")
