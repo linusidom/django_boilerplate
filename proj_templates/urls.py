@@ -83,7 +83,7 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\n\n
 			if app not in existing_apps:
 				arr.append("path('"+app+"/',include('"+app+".urls', namespace = '"+app+"')),\n")
 
-		del contents[start_urlpatterns_index - 1:end_urlpatterns_index+1]
+		del contents[start_urlpatterns_index - 1:-1]
 		j = 0
 		contents.insert(start_urlpatterns_index - 1, "urlpatterns = [\n")
 		# for i in range(start_urlpatterns_index, end_urlpatterns_index + len(app_name)):
@@ -91,7 +91,8 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\n\n
 			if arr[j] != '':
 				contents.insert(start_urlpatterns_index,"    "+arr[j]+"\n")
 			if j == 0:
-				contents.insert(start_urlpatterns_index + len(arr) - 2, ']\n')
+				contents.insert(start_urlpatterns_index + len(arr) - 2, "]\n\nurlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)\n\
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\n\n#updated DO NOT REMOVE THIS LINE")
 		
 		f = open(proj_name + '/urls.py', 'w')
 		for line in contents:
