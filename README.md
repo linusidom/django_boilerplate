@@ -4,8 +4,12 @@ This fill structure helps create the inital files needed to start a custom Accou
 
 Required Packages:
 ```
+# Added by script to project settings.py
 pip install livereload
 pip install djangorestframework
+
+#optional for funtional testing
+pip install selenium
 ```
 
 Ex Usage
