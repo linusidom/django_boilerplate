@@ -10,7 +10,7 @@ import proj_templates.settings as settings_project
 import proj_templates.proj_base as base_project
 
 
-from app import forms, urls, views, models
+from app import forms, urls, views, models, admin
 from app.app_api import api_models, api_views, api_urls 
 from app.app_templates import (app_confirm_delete,
 							app_detail, app_form,
@@ -83,8 +83,9 @@ for app_name in app_names:
 		shutil.copy(utils_file, proj_root+'/'+app_name+'/utils.py')
 	# if not os.path.exists(app_name+'/views.py'):
 	views.views_template(app_name=app_name, dst=app_name+'/views.py')
-	models.models_template(app_name=app_name, dst=app_name+'/models.py')
-	
+	models.models_template(app_name=app_name, dst=app_name+'/models.py', proj_name=proj_name)
+	admin.admin_template(app_name=app_name, dst=app_name+'/admin.py')
+		
 	# App templates
 	if not os.path.exists(app_name+'/templates'):
 		os.mkdir(app_name+'/templates/')

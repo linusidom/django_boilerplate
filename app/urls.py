@@ -20,6 +20,7 @@ urlpatterns=[\n\
 		content += "\
 	path('create/',views."+app_name[0:-1].title()+"CreateView.as_view(), name = '"+app_name[0:-1]+"_create'),\n\
 	re_path('detail/(?P<slug>[-\w]+)/',views."+app_name[0:-1].title()+"DetailView.as_view(), name = '"+app_name[0:-1]+"_detail'),\n\
+	re_path('update/(?P<slug>[-\w]+)/',views."+app_name[0:-1].title()+"UpdateView.as_view(), name = '"+app_name[0:-1]+"_update'),\n\
 	re_path('delete/(?P<slug>[-\w]+)/',views."+app_name[0:-1].title()+"DeleteView.as_view(), name = '"+app_name[0:-1]+"_delete'),\n]"
 
 	f = open(dst, 'w')

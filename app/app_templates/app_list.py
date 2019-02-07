@@ -9,7 +9,7 @@ def app_list(app_name, dst):
 <hr>\n\
 {% if "+app_name[0:-1]+"_list %}\n\
 	{% for "+app_name[0:-1]+" in "+app_name[0:-1]+"_list %}\n\
-		<a href=\"{% url "+app_name+":"+app_name[0:-1]+"_detail' slug="+app_name[0:-1]+".slug %}\"><p>{{"+app_name[0:-1]+".user}}</p></a>\n\
+		<a href=\"{% url '"+app_name+":"+app_name[0:-1]+"_detail' slug="+app_name[0:-1]+".slug %}\"><p>{{"+app_name[0:-1]+".user}}</p></a>\n\
 		<p>{{"+app_name[0:-1]+".slug}}</p>\n\
 		<p>{{"+app_name[0:-1]+".name}}</p>\n\
 		<p>{{"+app_name[0:-1]+".address}}</p>\n\

@@ -1,10 +1,11 @@
-def models_template(app_name, dst):
+def models_template(app_name, dst, proj_name):
 
 	content = "\
 from django.db import models\n\
 from django.shortcuts import reverse\n\
 from "+app_name+".utils import unique_slug_generator\n\
-from django.db.models.signals import pre_save\n"
+from django.db.models.signals import pre_save\n\
+from "+proj_name+" import settings\n"
 	
 	if app_name == 'accounts':
 		content += "\
@@ -19,6 +20,7 @@ class "+app_name[0:-1].title()+"(models.Model):\n"
 
 	if app_name != 'accounts':
 		content += "\
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)\n\
 	slug = models.SlugField(unique=True, blank=True)\n\
 	\n"
 
@@ -45,7 +47,7 @@ class "+app_name[0:-1].title()+"(models.Model):\n"
 		content += "\
 def pre_slug_field(sender, instance, *args, **kwargs):\n\
 	if not instance.slug:\n\
-		instance.slug = unique_slug_generator(instance.slug)\n\
+		instance.slug = unique_slug_generator(instance)\n\
 \n\
 pre_save.connect(pre_slug_field, sender="+app_name[0:-1].title()+")"
 	

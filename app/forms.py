@@ -24,7 +24,7 @@ from "+app_name+".models import "+app_name[0:-1].title()+"\n\n\
 class "+app_name[0:-1].title()+"Form(forms.ModelForm):\n\
 	class Meta():\n\
 		model = "+app_name[0:-1].title()+"\n\
-		fields = []"
+		exclude = ['user','slug']"
 
 	
 

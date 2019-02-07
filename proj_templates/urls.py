@@ -20,7 +20,6 @@ def urls_project(app_name, dst = '/', proj_name='test_bidding'):
 	f.close()
 
 	if '#updated' not in contents[-1]:
-		print('#updated')
 		test_arr = ['']*2
 		header = "from "+proj_name+" import views, settings\n\
 from django.contrib import admin\n\
@@ -72,7 +71,6 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\n\n
 			elif re.match(pattern, contents[i]) and urlpatterns_paren:
 				urlpatterns_paren = 0
 				end_urlpatterns_index = i
-		print(start_urlpatterns_index, end_urlpatterns_index)
 		for i in range(start_urlpatterns_index, end_urlpatterns_index):
 			contents[i] = contents[i].strip()
 			# print('orig',contents[i])
@@ -89,7 +87,6 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\n\n
 		j = 0
 		contents.insert(start_urlpatterns_index - 1, "urlpatterns = [\n")
 		# for i in range(start_urlpatterns_index, end_urlpatterns_index + len(app_name)):
-		print(len(arr), start_urlpatterns_index)
 		for j in range(len(arr)-1, -1, -1):
 			if arr[j] != '':
 				contents.insert(start_urlpatterns_index,"    "+arr[j]+"\n")
