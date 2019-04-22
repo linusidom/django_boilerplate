@@ -57,10 +57,10 @@ accounts/models.py, views.py, urls.py, forms.py
 - Custom Signup View and login with E-mail
 
 ## All other apps are setup based on the following
-example1_apps/templates/test1_apps -> all template files based on model name "Test1_app"
-test1_apps/models.py, views.py, urls.py, forms.py, utils.py
-- Test1_app Model is based on models.Model
-- Test1_app models.py comes with name and slug fields with randomizing script for slug field from utils.py
+example1_apps/templates/test1_apps -> all template files based on model name "Example1_app"
+- Creates example1_apps/models.py, views.py, urls.py, forms.py, utils.py
+- example1_apps Model is based on models.Model
+- example1_apps models.py comes with name and slug fields with randomizing script for slug field from utils.py
 
 
 

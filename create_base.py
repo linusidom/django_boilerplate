@@ -22,14 +22,10 @@ from app.app_templates import (app_confirm_delete,
 src_templates = '/Users/Admin/coding/django/django_create_base/templates/'
 src_static = '/Users/Admin/coding/django/django_create_base/static/'
 src_functional_tests = '/Users/Admin/coding/django/django_create_base/functional_tests/'
-
-
-
-utils_file = '/Users/Admin/coding/django/django_create_base/app/utils.py'
+src_utils_file = '/Users/Admin/coding/django/django_create_base/app/utils.py'
 
 
 # Project Files (URLS, Views, Settings, Base)
-
 proj_name = os.getcwd().split('/')[-1]
 proj_root = os.getcwd()
 proj_dst = os.getcwd()+'/'+proj_name
@@ -50,7 +46,7 @@ base_project.base_project(app_name=app_names, dst=src_templates+'/base.html')
 
 
 
-# Project Folders
+# App Folders
 
 proj_folders_SRC = [src_templates, src_static, src_functional_tests]
 proj_folders_DST = ['./templates', './static', './functional_tests']
@@ -59,7 +55,6 @@ for i in range(len(proj_folders_DST)):
 	if not os.path.exists(proj_folders_DST[i]):
 		shutil.copytree(proj_folders_SRC[i], proj_folders_DST[i])
 print('...finished')
-
 
 
 # Proejct App Folders and Files (URLS, Views, Settings, Base, etc.)
@@ -72,7 +67,7 @@ for app_name in app_names:
 	if not os.path.exists(app_name):
 		os.mkdir(app_name)
 	
-	# App files
+	# App files...forms, urls, utils, views, models, admin
 	if not os.path.exists(app_name+'/forms.py'):
 		forms.forms_template(app_name=app_name, dst=app_name+'/forms.py')
 	
@@ -80,13 +75,13 @@ for app_name in app_names:
 		urls.urls_template(app_name=app_name, dst=app_name+'/urls.py')
 
 	if not os.path.exists(app_name+'/utils.py'):
-		shutil.copy(utils_file, proj_root+'/'+app_name+'/utils.py')
-	# if not os.path.exists(app_name+'/views.py'):
+		shutil.copy(src_utils_file, proj_root+'/'+app_name+'/utils.py')
+
 	views.views_template(app_name=app_name, dst=app_name+'/views.py')
 	models.models_template(app_name=app_name, dst=app_name+'/models.py', proj_name=proj_name)
 	admin.admin_template(app_name=app_name, dst=app_name+'/admin.py')
 		
-	# App templates
+	# App templates app_name/templates/app_name/...
 	if not os.path.exists(app_name+'/templates'):
 		os.mkdir(app_name+'/templates/')
 		os.mkdir(app_name+'/templates/'+app_name)
@@ -104,7 +99,7 @@ for app_name in app_names:
 			signup.signup(app_name=app_name, dst=app_name+'/templates/'+app_name+'/signup.html')
 			invalid_form.invalid_form(app_name=app_name, dst=app_name+'/templates/'+app_name+'/invalid_form.html')
 
-	# API's
+	# API Folders and Files
 	if not os.path.exists(app_name+'/api'):
 		os.mkdir(app_name+'/api/')
 		api_models.api_models(app_name=app_name, dst=app_name+'/api/models.py')

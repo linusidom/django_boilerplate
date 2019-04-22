@@ -16,12 +16,13 @@ class Account(AbstractUser):\n"
 class "+app_name[0:-1].title()+"(models.Model):\n"
 
 	content += "\
-	name = models.CharField(max_length=100, null=True, blank=True)\n"
+	name = models.CharField(max_length=100, null=True, blank=True)\n\
+	slug = models.SlugField(unique=True, blank=True)\n\
+	\n"
 
-	if app_name != 'accounts':
+	if app_name == 'accounts':
 		content += "\
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)\n\
-	slug = models.SlugField(unique=True, blank=True)\n\
 	\n"
 
 	if app_name == 'accounts':

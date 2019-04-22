@@ -10,7 +10,7 @@ def settings_project(app_name, dst, proj_name):
     if 'accounts' in app_name:
         auth_model = 1
 
-    src_proj_files = '/Users/Admin/coding/django/django_create_base/proj_files'
+    # src_proj_files = '/Users/Admin/coding/django/django_create_base/proj_files'
 
     # Copy the settings file from the project directory to another settings file in the same project directory
     
