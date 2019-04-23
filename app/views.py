@@ -75,23 +75,13 @@ def update_account(request, pk):\n\
 class "+app_name[0:-1].title()+"ListView(LoginRequiredMixin, ListView):\n\
 	model = "+app_name[0:-1].title()+"\n\
 	\n\
-	def get_queryset(self):\n\
-		return "+app_name[0:-1].title()+".objects.filter(user=self.request.user)\n\
-		\n\
 class "+app_name[0:-1].title()+"DetailView(LoginRequiredMixin, DetailView):\n\
 	model = "+app_name[0:-1].title()+"\n\
 	\n\
-	def get_queryset(self):\n\
-		return "+app_name[0:-1].title()+".objects.filter(user=self.request.user)\n\
-		\n\
 class "+app_name[0:-1].title()+"CreateView(LoginRequiredMixin, CreateView):\n\
 	model = "+app_name[0:-1].title()+"\n\
 	form_class = "+app_name[0:-1].title()+"Form\n\
 	\n\
-	def form_valid(self, form):\n\
-		form.instance.user = self.request.user\n\
-		return super("+app_name[0:-1].title()+"CreateView, self).form_valid(form)\n\
-		\n\
 class "+app_name[0:-1].title()+"UpdateView(LoginRequiredMixin, UpdateView):\n\
 	model = "+app_name[0:-1].title()+"\n\
 	form_class = "+app_name[0:-1].title()+"Form"
