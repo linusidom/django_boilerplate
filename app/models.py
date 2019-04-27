@@ -1,4 +1,4 @@
-def models_template(app_name, dst, proj_name):
+def models_template(models_need_user, app_name, dst, proj_name):
 
 	content = "\
 from django.db import models\n\
@@ -14,16 +14,18 @@ class Account(AbstractUser):\n"
 	else:
 		content += "\n\
 class "+app_name[0:-1].title()+"(models.Model):\n"
+	
+	if models_need_user and app_name != 'accounts':
+		content += "\
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)\n\
+	\n"
 
 	content += "\
 	name = models.CharField(max_length=100, null=True, blank=True)\n\
 	slug = models.SlugField(unique=True, blank=True)\n\
 	\n"
 
-	if app_name == 'accounts':
-		content += "\
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)\n\
-	\n"
+	
 
 	if app_name == 'accounts':
 		content += "\

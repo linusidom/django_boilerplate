@@ -23,7 +23,7 @@ src_templates = '/Users/Admin/coding/django/django_create_base/templates/'
 src_static = '/Users/Admin/coding/django/django_create_base/static/'
 src_functional_tests = '/Users/Admin/coding/django/django_create_base/functional_tests/'
 src_utils_file = '/Users/Admin/coding/django/django_create_base/app/utils.py'
-
+models_need_user = False
 
 # Project Files (URLS, Views, Settings, Base)
 proj_name = os.getcwd().split('/')[-1]
@@ -56,6 +56,8 @@ for i in range(len(proj_folders_DST)):
 		shutil.copytree(proj_folders_SRC[i], proj_folders_DST[i])
 print('...finished')
 
+if 'accounts' in app_names:
+	models_need_user = True
 
 # Proejct App Folders and Files (URLS, Views, Settings, Base, etc.)
 for app_name in app_names:
@@ -78,7 +80,7 @@ for app_name in app_names:
 		shutil.copy(src_utils_file, proj_root+'/'+app_name+'/utils.py')
 
 	views.views_template(app_name=app_name, dst=app_name+'/views.py')
-	models.models_template(app_name=app_name, dst=app_name+'/models.py', proj_name=proj_name)
+	models.models_template(models_need_user, app_name=app_name, dst=app_name+'/models.py', proj_name=proj_name)
 	admin.admin_template(app_name=app_name, dst=app_name+'/admin.py')
 		
 	# App templates app_name/templates/app_name/...
