@@ -4,7 +4,7 @@ def models_template(models_need_user, app_name, dst, proj_name):
 from django.db import models\n\
 from django.shortcuts import reverse\n\
 from "+app_name+".utils import unique_slug_generator\n\
-from django.db.models.signals import pre_save\n\
+from django.db.models.signals import pre_save, post_save\n\
 from "+proj_name+" import settings\n"
 	
 	if app_name == 'accounts':
