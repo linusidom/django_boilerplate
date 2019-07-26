@@ -1,13 +1,15 @@
 def api_views(app_name, dst):
 
-	content = "from rest_framework import generics\n\
-from '"+app_name+"'.api.models import '"+app_name.title()+"'Serializer\n\
-from '"+app_name+"'.models import '"+app_name.title()+"'\n\
-\n\
-class '"+app_name.title()+"RUDAPIView(generics.RetrieveUpdateDestroyAPIView):\n\
-	lookup ='pk'\n\
-	serializer_class = '"+app_name.title()+"'Serializer\n\
-	queryset = '"+app_name.title()+"'.objects.all()'"
+	app_model = app_name[:-1].title()
+
+	content = f"""from rest_framework import generics
+from {app_name}.api.models import {app_model}Serializer
+from {app_name}.models import {app_model}
+
+class {app_model}ListAPIView(generics.ListAPIView):
+	lookup ='pk'
+	serializer_class = {app_model}Serializer
+	queryset = {app_model}.objects.all()"""
 
 	f = open(dst, 'w')
 	f.write(content)

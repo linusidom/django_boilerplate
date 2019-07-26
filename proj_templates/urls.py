@@ -21,40 +21,45 @@ def urls_project(app_name, dst = '/', proj_name='test_bidding'):
 
 	if '#updated' not in contents[-1]:
 		test_arr = ['']*2
-		header = "from "+proj_name+" import views, settings\n\
-from django.contrib import admin\n\
-from django.urls import path, include, re_path, reverse_lazy\n\
-from django.contrib.auth import views as auth_views\n\
-from django.conf.urls.static import static\n\n\
-\n\
-urlpatterns = [\n"
+		header = f"""from {proj_name} import views, settings
+from django.contrib import admin
+from django.urls import path, include, re_path, reverse_lazy
+from django.contrib.auth import views as auth_views
+from django.conf.urls.static import static
 
-		urlpatterns = "\
-	path('admin/', admin.site.urls),\n\
-	path('', views.IndexTemplateView.as_view(), name='index'),\n\
-	\n\
-	path('login/', auth_views.LoginView.as_view(template_name='login.html'), name = 'user_login'),\n\
-	path('logout/', auth_views.LogoutView.as_view(), name = 'user_logout'),\n\
-	\n\
-	path('change-password/', auth_views.PasswordChangeView.as_view(success_url=reverse_lazy('user_logout')), name='password_change'),\n\
-	path('change-password-done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),\n\
-	\n\
-	path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),\n\
-	path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),\n\
-	re_path('reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),\n\
-	path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),\n"
+urlpatterns = ["""
+
+		urlpatterns = f"""
+	path('admin/', admin.site.urls),
+	path('', views.IndexTemplateView.as_view(), name='index'),
+	
+	path('login/', auth_views.LoginView.as_view(template_name='login.html'), name = 'user_login'),
+	path('logout/', auth_views.LogoutView.as_view(), name = 'user_logout'),
+	
+	path('change-password/', auth_views.PasswordChangeView.as_view(success_url=reverse_lazy('user_logout')), name='password_change'),
+	path('change-password-done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
+	
+	path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
+	path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+	re_path('reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+	path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),"""
 
 		test_arr[0] = header
 
 		test_arr[1] = urlpatterns
 
 		for app in app_name:
-			test_arr.append("\
-	path('"+app+"/',include('"+app+".urls', namespace = '"+app+"')),\n")
+			app_urlpattern = f"""
+	path('{app}/',include('{app}.urls', namespace = '{app}')),
+	path('api/{app}/',include('{app}.api.urls',namespace='api_{app}')),"""
+			test_arr.append(app_urlpattern)
 
 		# test_arr[1] += arr
-		test_arr.append("]\n\nurlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)\n\
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\n\n#updated DO NOT REMOVE THIS LINE")
+		test_arr.append(f"""
+]
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)#updated DO NOT REMOVE THIS LINE""")
 
 		f = open(proj_name + '/urls.py', 'w')
 		for line in test_arr:
@@ -81,7 +86,9 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\n\n
 		
 		for app in app_name:
 			if app not in existing_apps:
-				arr.append("path('"+app+"/',include('"+app+".urls', namespace = '"+app+"')),\n")
+				arr.append(f"""
+	path('{app}/',include('{app}.urls', namespace = '{app}')),
+	path('api/{app}/',include('{app}.api.urls',namespace = 'api_{app}')),""")
 		# for item in arr:
 		# 	print(item)
 		del contents[start_urlpatterns_index - 1:]
@@ -95,8 +102,12 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\n\n
 			if arr[j] != '':
 				contents.insert(start_urlpatterns_index,"    "+arr[j]+"\n")
 			if j == 0:
-				contents.insert(start_urlpatterns_index + len(arr), "]\n\nurlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)\n\
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\n\n#updated DO NOT REMOVE THIS LINE")
+				contents.insert(start_urlpatterns_index + len(arr), f"""
+]
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+#updated DO NOT REMOVE THIS LINE""")
 		
 		f = open(proj_name + '/urls.py', 'w')
 		for line in contents:

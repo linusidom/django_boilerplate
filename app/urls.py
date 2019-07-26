@@ -1,27 +1,35 @@
 def urls_template(app_name, dst):
 	
-	content = "\
-from django.urls import path, re_path\n\
-from "+app_name+" import views\n\
-from "+app_name+".models import "+app_name[0:-1].title()+"\n\n\
-app_name='"+app_name+"'\n\n\
-urlpatterns=[\n\
-	path('',views.IndexTemplateView.as_view(), name = 'index'),\n\
-	path('list/',views."+app_name[0:-1].title()+"ListView.as_view(), name = '"+app_name[0:-1]+"_list'),\n"
+	app_model = app_name[:-1].title()
+	app_name_short = app_name[:-1]
+	content = f"""
+from django.urls import path, re_path
+from {app_name} import views
+from {app_name}.models import {app_model}
+
+app_name='{app_name}'
+
+urlpatterns=[
+	path('',views.IndexTemplateView.as_view(), name = 'index'),
+	path('list/',views.{app_model}ListView.as_view(), name = '{app_name_short}_list'),"""
 	
 	if app_name == 'accounts':
-		content += "\
-	path('signup/',views.signup, name = 'signup'),\n\
-	re_path('detail/(?P<pk>\d+)/',views."+app_name[0:-1].title()+"DetailView.as_view(), name = '"+app_name[0:-1]+"_detail'),\n\
-	re_path('update/(?P<pk>\d+)/',views.update_account, name = '"+app_name[0:-1]+"_update'),\n\
-	re_path('delete/(?P<pk>\d+)/',views."+app_name[0:-1].title()+"DeleteView.as_view(), name = '"+app_name[0:-1]+"_delete'),\n]"
+		content += f"""
+	path('signup/',views.signup, name = 'signup'),
+	re_path('detail/(?P<pk>\d+)/',views.{app_model}DetailView.as_view(), name = '{app_name_short}_detail'),
+	re_path('update/(?P<pk>\d+)/',views.update_account, name = '{app_name_short}_update'),
+	re_path('delete/(?P<pk>\d+)/',views.{app_model}DeleteView.as_view(), name = '{app_name_short}_delete'),
+
+]"""
 
 	else:
-		content += "\
-	path('create/',views."+app_name[0:-1].title()+"CreateView.as_view(), name = '"+app_name[0:-1]+"_create'),\n\
-	re_path('detail/(?P<slug>[-\w]+)/',views."+app_name[0:-1].title()+"DetailView.as_view(), name = '"+app_name[0:-1]+"_detail'),\n\
-	re_path('update/(?P<slug>[-\w]+)/',views."+app_name[0:-1].title()+"UpdateView.as_view(), name = '"+app_name[0:-1]+"_update'),\n\
-	re_path('delete/(?P<slug>[-\w]+)/',views."+app_name[0:-1].title()+"DeleteView.as_view(), name = '"+app_name[0:-1]+"_delete'),\n]"
+		content += f"""
+	path('create/',views.{app_model}CreateView.as_view(), name = '{app_name_short}_create'),
+	re_path('detail/(?P<slug>[-\w]+)/',views.{app_model}DetailView.as_view(), name = '{app_name_short}_detail'),
+	re_path('update/(?P<slug>[-\w]+)/',views.{app_model}UpdateView.as_view(), name = '{app_name_short}_update'),
+	re_path('delete/(?P<slug>[-\w]+)/',views.{app_model}DeleteView.as_view(), name = '{app_name_short}_delete'),
+
+]"""
 
 	f = open(dst, 'w')
 	f.write(content)

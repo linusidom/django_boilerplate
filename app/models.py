@@ -1,58 +1,61 @@
 def models_template(models_need_user, app_name, dst, proj_name):
 
-	content = "\
-from django.db import models\n\
-from django.shortcuts import reverse\n\
-from "+app_name+".utils import unique_slug_generator\n\
-from django.db.models.signals import pre_save, post_save\n\
-from "+proj_name+" import settings\n"
+	app_model = app_name[:-1].title()
+	app_name_short = app_name[:-1]
+
+	content = f"""\
+from django.db import models
+from django.shortcuts import reverse
+from {app_name}.utils import unique_slug_generator
+from django.db.models.signals import pre_save, post_save
+from {proj_name} import settings"""
 	
 	if app_name == 'accounts':
-		content += "\
-from django.contrib.auth.models import AbstractUser\n\n\
-class Account(AbstractUser):\n"
+		content += f"""
+from django.contrib.auth.models import AbstractUser
+
+
+class Account(AbstractUser):"""
 	else:
-		content += "\n\
-class "+app_name[0:-1].title()+"(models.Model):\n"
+		content += f"""
+
+
+User = settings.AUTH_USER_MODEL
+
+class {app_model}(models.Model):"""
 	
 	if models_need_user and app_name != 'accounts':
-		content += "\
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)\n\
-	\n"
+		content += f"""
+	user = models.ForeignKey(User, on_delete=models.CASCADE)"""
 
-	content += "\
-	name = models.CharField(max_length=100, null=True, blank=True)\n\
-	slug = models.SlugField(unique=True, blank=True)\n\
-	\n"
+	content += f"""
+	name = models.CharField(max_length=100, null=True, blank=True)
+	slug = models.SlugField(unique=True, blank=True)"""
 
 	
-
 	if app_name == 'accounts':
-		content += "\
-	def __str__(self):\n\
-		return self.email\n\
-	\n"
+		content += f"""
+	def __str__(self):
+		return self.email"""
 	else:
-		content += "\
-	def __str__(self):\n\
-		return self.name\n\
-	\n"
+		content += f"""
+	def __str__(self):
+		return self.name"""
 
-	content += "\
-	@property\n\
-	def title(self):\n\
-		return self.name\n\
-	\n\
-	def get_absolute_url(self):\n\
-		return reverse('"+app_name+":"+app_name[0:-1]+"_detail', kwargs={'slug':self.slug})\
-\n"
+	content += f"""
+	@property
+	def title(self):
+		return self.name
+
+	def get_absolute_url(self):
+		return reverse('{app_name}:{app_name_short}_detail', kwargs={{'slug':self.slug}})"""
 	if app_name != 'accounts':
-		content += "\
-def pre_slug_field(sender, instance, *args, **kwargs):\n\
-	if not instance.slug:\n\
-		instance.slug = unique_slug_generator(instance)\n\
-\n\
-pre_save.connect(pre_slug_field, sender="+app_name[0:-1].title()+")"
+		content += f"""
+def pre_slug_field(sender, instance, *args, **kwargs):
+	if not instance.slug:
+		instance.slug = unique_slug_generator(instance)
+
+pre_save.connect(pre_slug_field, sender={app_model})"""
 	
 	f = open(dst, 'w')
 	f.write(content)

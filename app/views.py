@@ -1,90 +1,93 @@
 def views_template(app_name, dst):
 
-	content="\
-from django.shortcuts import render, redirect\n\
-from django.urls import reverse_lazy\n\
-from django.contrib import messages\n\
-from django.views.generic import (TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView)\n\
-from django.contrib.auth.mixins import LoginRequiredMixin\n\
-from "+app_name+".models import "+app_name[0:-1].title()+"\n"
+	app_model = app_name[:-1].title()
+	app_name_short = app_name[:-1]
+
+	content=f"""
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.contrib import messages
+from django.views.generic import (TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView)
+from django.contrib.auth.mixins import LoginRequiredMixin
+from {app_name}.models import {app_model}"""
 
 	if app_name == 'accounts':
-		content += "\
-from "+app_name+".forms import "+app_name[0:-1].title()+"Form, "+app_name[0:-1].title()+"UpdateForm\n\
-\n"
+		content += f"""
+from {app_name}.forms import {app_model}Form, {app_model}UpdateForm"""
 	else:
-		content += "from "+app_name+".forms import "+app_name[0:-1].title()+"Form\n\
-\n"
+		content += f"""
+from {app_name}.forms import {app_model}Form"""
 
 
-	content += "\
-class IndexTemplateView(TemplateView):\n\
-	template_name='"+app_name+"/index.html'\n\
-	\n\
-class "+app_name[0:-1].title()+"DeleteView(LoginRequiredMixin, DeleteView):\n\
-	model = "+app_name[0:-1].title()+"\n\
-	success_url = reverse_lazy('"+app_name+":"+app_name[0:-1]+"_list')\n\n"
+	content += f"""
+class IndexTemplateView(TemplateView):
+	template_name='{app_name}/index.html'
+	
+class {app_model}DeleteView(LoginRequiredMixin, DeleteView):
+	model = {app_model}
+	success_url = reverse_lazy('{app_name}:{app_name_short}_list')"""
 
 	if app_name == 'accounts':
-		content += "\
-class "+app_name[0:-1].title()+"ListView(LoginRequiredMixin, ListView):\n\
-	model = "+app_name[0:-1].title()+"\n\
-	\n\
-	def get_queryset(self):\n\
-		return "+app_name[0:-1].title()+".objects.filter(username=self.request.user)\n\
-		\n\
-class "+app_name[0:-1].title()+"DetailView(LoginRequiredMixin, DetailView):\n\
-	model = "+app_name[0:-1].title()+"\n\
-	\n\
-	def get_queryset(self):\n\
-		return "+app_name[0:-1].title()+".objects.filter(username=self.request.user)\n\
-		\n\
-def signup(request):\n\
-	if request.method == 'POST':\n\
-		form = AccountForm(request.POST)\n\
-		if form.is_valid():\n\
-			account = form.save(commit=False)\n\
-			try:\n\
-				Account.objects.get(username__iexact=account.email)\n\
-				return render(request, 'accounts/invalid_form.html')\n\
-			except account.DoesNotExist:\n\
-				account.username = account.email\n\
-				account.save()\n\
-				return redirect('user_login')\n\
-	else:\n\
-		form = AccountForm()\n\
-	return render(request, 'accounts/signup.html', {'form': form})\n\
-\n\
-def update_account(request, pk):\n\
-	if request.method == 'POST':\n\
-		form = AccountUpdateForm(request.POST, instance=request.user)\n\
-		if form.is_valid():\n\
-			account = form.save(commit=False)\n\
-			account.username = account.email\n\
-			account.save()\n\
-			messages.add_message(request, messages.INFO, 'Success, Account Updated!')\n\
-			return redirect('accounts:account_detail', pk=pk)\n\
-		else:\n\
-			return HttpResponse(form.errors)\n\
-	else:\n\
-		form = AccountUpdateForm(instance=request.user)\n\
-	return render(request, 'accounts/account_form.html', {'form': form})"
+		content += f"""
+		
+class {app_model}ListView(LoginRequiredMixin, ListView):
+	model = {app_model}
+	
+	def get_queryset(self):
+		return {app_model}.objects.filter(username=self.request.user)
+		
+class {app_model}DetailView(LoginRequiredMixin, DetailView):
+	model = {app_model}
+	
+	def get_queryset(self):
+		return {app_model}.objects.filter(username=self.request.user)
+		
+def signup(request):
+	if request.method == 'POST':
+		form = AccountForm(request.POST)
+		if form.is_valid():
+			account = form.save(commit=False)
+			try:
+				Account.objects.get(username__iexact=account.email)
+				return render(request, 'accounts/invalid_form.html')
+			except account.DoesNotExist:
+				account.username = account.email
+				account.save()
+				return redirect('user_login')
+	else:
+		form = AccountForm()
+	return render(request, 'accounts/signup.html', {{'form': form}})
+
+def update_account(request, pk):
+	if request.method == 'POST':
+		form = AccountUpdateForm(request.POST, instance=request.user)
+		if form.is_valid():
+			account = form.save(commit=False)
+			account.username = account.email
+			account.save()
+			messages.add_message(request, messages.INFO, 'Success, Account Updated!')
+			return redirect('accounts:account_detail', pk=pk)
+		else:
+			return HttpResponse(form.errors)
+	else:
+		form = AccountUpdateForm(instance=request.user)
+	return render(request, 'accounts/account_form.html', {{'form': form}})"""
 	
 	else:
-		content += "\
-class "+app_name[0:-1].title()+"ListView(LoginRequiredMixin, ListView):\n\
-	model = "+app_name[0:-1].title()+"\n\
-	\n\
-class "+app_name[0:-1].title()+"DetailView(LoginRequiredMixin, DetailView):\n\
-	model = "+app_name[0:-1].title()+"\n\
-	\n\
-class "+app_name[0:-1].title()+"CreateView(LoginRequiredMixin, CreateView):\n\
-	model = "+app_name[0:-1].title()+"\n\
-	form_class = "+app_name[0:-1].title()+"Form\n\
-	\n\
-class "+app_name[0:-1].title()+"UpdateView(LoginRequiredMixin, UpdateView):\n\
-	model = "+app_name[0:-1].title()+"\n\
-	form_class = "+app_name[0:-1].title()+"Form"
+		content += f"""
+class {app_model}ListView(LoginRequiredMixin, ListView):
+	model = {app_model}
+	
+class {app_model}DetailView(LoginRequiredMixin, DetailView):
+	model = {app_model}
+	
+class {app_model}CreateView(LoginRequiredMixin, CreateView):
+	model = {app_model}
+	form_class = {app_model}Form
+	
+class {app_model}UpdateView(LoginRequiredMixin, UpdateView):
+	model = {app_model}
+	form_class = {app_model}Form"""
 
 	f = open(dst, 'w')
 	f.write(content)

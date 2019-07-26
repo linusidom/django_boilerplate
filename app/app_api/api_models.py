@@ -1,11 +1,13 @@
 def api_models(app_name, dst):
 
-	content = "from rest_framework import serializers\n\
-from '"+app_name+"'.models import '"+app_name.title()+"'\n\
-\n\
-class '"+app_name.title()+"'Serializer(serializers.ModelSerializer):\n\
-	class Meta():\n\
-		model = "+app_name.title()+""
+	app_model = app_name[:-1].title()
+
+	content = f"""from rest_framework import serializers
+from {app_name}.models import {app_model}
+
+class {app_model}Serializer(serializers.ModelSerializer):
+	class Meta():
+		model = {app_model}"""
 
 	f = open(dst, 'w')
 	f.write(content)

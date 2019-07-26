@@ -19,7 +19,14 @@
   	<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     	<div class="navbar-nav">
 			<li><a href="{% url 'index' %}">Index</a></li>
-			<li><a href="{% url 'billings:billing_list' %}">Billing</a></li>
+			<li><a href="{% url 'accounts:account_list' %}">Account</a></li>
+			<li><a href="{% url 'bids:bid_list' %}">Bid</a></li>
+		<li><a href="{% url 'accounts:signup' %}">Signup</a></li>
+		<li><a href="{% url 'user_login' %}">Login</a></li>
+		{% if user.is_authenticated %}
+			<li><a href="{% url 'user_logout' %}">Logout</a></li>
+			<li><a href="{% url 'accounts:account_detail' pk=user.pk %}">Account Detail</a></li>
+		{% endif %}
 	</div>
 	</nav>
 </header>
