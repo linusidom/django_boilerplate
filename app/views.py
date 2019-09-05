@@ -20,23 +20,24 @@ from {app_name}.forms import {app_model}Form"""
 
 
 	content += f"""
+	
 class IndexTemplateView(TemplateView):
 	template_name='{app_name}/index.html'
 	
-class {app_model}DeleteView(LoginRequiredMixin, DeleteView):
+class {app_model}DeleteView(DeleteView):
 	model = {app_model}
 	success_url = reverse_lazy('{app_name}:{app_name_short}_list')"""
 
 	if app_name == 'accounts':
 		content += f"""
 		
-class {app_model}ListView(LoginRequiredMixin, ListView):
+class {app_model}ListView(ListView):
 	model = {app_model}
 	
 	def get_queryset(self):
 		return {app_model}.objects.filter(username=self.request.user)
 		
-class {app_model}DetailView(LoginRequiredMixin, DetailView):
+class {app_model}DetailView(DetailView):
 	model = {app_model}
 	
 	def get_queryset(self):
@@ -75,17 +76,18 @@ def update_account(request, pk):
 	
 	else:
 		content += f"""
-class {app_model}ListView(LoginRequiredMixin, ListView):
+
+class {app_model}ListView(ListView):
 	model = {app_model}
 	
-class {app_model}DetailView(LoginRequiredMixin, DetailView):
+class {app_model}DetailView(DetailView):
 	model = {app_model}
 	
-class {app_model}CreateView(LoginRequiredMixin, CreateView):
+class {app_model}CreateView(CreateView):
 	model = {app_model}
 	form_class = {app_model}Form
 	
-class {app_model}UpdateView(LoginRequiredMixin, UpdateView):
+class {app_model}UpdateView(UpdateView):
 	model = {app_model}
 	form_class = {app_model}Form"""
 

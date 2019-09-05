@@ -10,7 +10,7 @@ import proj_templates.settings as settings_project
 import proj_templates.proj_base as base_project
 
 
-from app import forms, urls, views, models, admin
+from app import forms, urls, views, models, tests, admin
 from app.app_api import api_models, api_views, api_urls 
 from app.app_templates import (app_confirm_delete,
 							app_detail, app_form,
@@ -40,7 +40,8 @@ print('building', proj_name, end='')
 app_names = sys.argv[1:]
 
 urls_project.urls_project(app_name=app_names, dst=proj_dst+'/urls.py', proj_name=proj_name)
-views_project.views_project(dst=proj_dst+'/views.py')
+if not os.path.exists(proj_dst+'/views.py'):
+	views_project.views_project(dst=proj_dst+'/views.py')
 settings_project.settings_project(app_name=app_names, dst=proj_dst+'/settings.py', proj_name = proj_name)
 base_project.base_project(app_name=app_names, dst=src_templates+'/base.html')
 
@@ -81,6 +82,7 @@ for app_name in app_names:
 
 	views.views_template(app_name=app_name, dst=app_name+'/views.py')
 	models.models_template(models_need_user, app_name=app_name, dst=app_name+'/models.py', proj_name=proj_name)
+	tests.tests_template(app_name=app_name, dst=app_name+'/tests.py')
 	admin.admin_template(app_name=app_name, dst=app_name+'/admin.py')
 		
 	# App templates app_name/templates/app_name/...
