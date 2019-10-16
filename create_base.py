@@ -19,10 +19,15 @@ from app.app_templates import (app_confirm_delete,
 
 
 
-src_templates = '/Users/Admin/coding/django/django_create_base/templates/'
-src_static = '/Users/Admin/coding/django/django_create_base/static/'
-src_functional_tests = '/Users/Admin/coding/django/django_create_base/functional_tests/'
-src_utils_file = '/Users/Admin/coding/django/django_create_base/app/utils.py'
+src_templates = os.path.dirname(__file__)+'/templates/'
+src_static = os.path.dirname(__file__)+'/static/'
+src_functional_tests = os.path.dirname(__file__)+'/functional_tests/'
+src_utils_file = os.path.dirname(__file__)+'/app/utils.py'
+
+# src_templates = '/Users/Admin/coding/django/django_create_base/templates/'
+# src_static = '/Users/Admin/coding/django/django_create_base/static/'
+# src_functional_tests = '/Users/Admin/coding/django/django_create_base/functional_tests/'
+# src_utils_file = '/Users/Admin/coding/django/django_create_base/app/utils.py'
 models_need_user = False
 
 # Project Files (URLS, Views, Settings, Base)
