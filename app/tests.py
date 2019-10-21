@@ -16,16 +16,19 @@ class {app_name.title()}HomePage(TestCase):
 		request = self.client.get('/{app_name}/create/')
 		self.assertEqual(request.status_code, 200)
 	def test_{app_name}_detail(self):
-		{app_name} = {model_name}.objects.create(name='New Loc')
-		request = self.client.get('/{app_name}/detail/new-loc/')
+		name = 'Test Name'
+		{app_name} = {model_name}.objects.create(name=name)
+		request = self.client.get('/{app_name}/detail/test-name/')
 		self.assertEqual(request.status_code, 200)
 	def test_{app_name}_update(self):
-		{app_name} = {model_name}.objects.create(name='New Loc')
-		request = self.client.get('/{app_name}/update/new-loc/')
+		name = 'Test Name'
+		{app_name} = {model_name}.objects.create(name=name)
+		request = self.client.get('/{app_name}/update/test-name/')
 		self.assertEqual(request.status_code, 200)
 	def test_{app_name}_delete(self):
-		{app_name} = {model_name}.objects.create(name='New Loc')
-		request = self.client.get('/{app_name}/delete/new-loc/')
+		name = 'Test Name'
+		{app_name} = {model_name}.objects.create(name=name)
+		request = self.client.get('/{app_name}/delete/test-name/')
 		self.assertEqual(request.status_code, 200)
 	"""
 
