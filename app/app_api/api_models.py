@@ -7,7 +7,8 @@ from {app_name}.models import {app_model}
 
 class {app_model}Serializer(serializers.ModelSerializer):
 	class Meta():
-		model = {app_model}"""
+		model = {app_model}
+		fields = ['id','name','slug']"""
 
 	f = open(dst, 'w')
 	f.write(content)

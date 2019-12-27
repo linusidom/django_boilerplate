@@ -7,7 +7,6 @@ from {app_name}.api.models import {app_model}Serializer
 from {app_name}.models import {app_model}
 
 class {app_model}ListAPIView(generics.ListAPIView):
-	lookup ='pk'
 	serializer_class = {app_model}Serializer
 	queryset = {app_model}.objects.all()"""
 
