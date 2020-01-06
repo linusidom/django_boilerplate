@@ -4,8 +4,8 @@ def models_template(models_need_user, app_name, dst, proj_name):
 	app_name_short = app_name[:-1]
 
 	image_upload_config = f"""
-def update_image_name(fielpath):
-	base_name = os.path.basename(fielpath)
+def update_image_name(filepath):
+	base_name = os.path.basename(filepath)
 	name, ext = os.path.splitext(base_name)
 	return name, ext
 
@@ -18,6 +18,7 @@ def upload_image_path(instance, filename):
 	"""
 
 	content = f"""
+import random, os
 from django.db import models
 from django.shortcuts import reverse
 from {app_name}.utils import unique_slug_generator
