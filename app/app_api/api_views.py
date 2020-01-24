@@ -8,6 +8,10 @@ from {app_name}.models import {app_model}
 
 class {app_model}ListAPIView(generics.ListAPIView):
 	serializer_class = {app_model}Serializer
+	queryset = {app_model}.objects.all()
+
+class {app_model}DetailAPIView(generics.RetrieveAPIView):
+	serializer_class = {app_model}Serializer
 	queryset = {app_model}.objects.all()"""
 
 	f = open(dst, 'w')

@@ -13,7 +13,7 @@ def upload_image_path(instance, filename):
 	new_filename = random.randint(1,986987)
 	name, ext = update_image_name(filename)
 	final_filename = f'{{new_filename}}{{ext}}'
-	return f'products/{{new_filename}}/{{final_filename}}'
+	return f'{app_name}/{{new_filename}}/{{final_filename}}'
 
 	"""
 

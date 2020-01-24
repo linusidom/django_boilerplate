@@ -2,7 +2,7 @@ def base_project(app_name, dst):
 
 	content = "\
 <!DOCTYPE html>\n\
-{% load staticfiles %}\n\
+{% load static %}\n\
 <html>\n\
 <head>\n\
 	<title>BASE</title>\n\

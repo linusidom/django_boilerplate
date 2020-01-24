@@ -10,6 +10,7 @@ app_name = 'api_{app_name}'
 
 urlpatterns = [
 	path('list/',views.{app_model}ListAPIView.as_view(),name='api_{app_name_short}_list'),
+	re_path('detail/(?P<pk>[\d]+)',views.{app_model}DetailAPIView.as_view(),name='api_{app_name_short}_detail'),
 ]"""
 
 	f = open(dst, 'w')
