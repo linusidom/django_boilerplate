@@ -1,4 +1,4 @@
-# django_create_base
+# django_boilerplate
 
 This file structure helps create the inital files needed to start a custom Accounts App, any supporting apps with forms, models, views and urls arlready preset and updates the settings files with the necessary components.
 
