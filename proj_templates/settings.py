@@ -49,10 +49,6 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')\n"
     for i in range(start_installed_index, end_installed_index):
         contents[i] = contents[i].strip().replace("\',",'').replace("'",'')
         arr.append(contents[i])
-    if 'livereload' not in arr:
-        arr.append('livereload')
-    if 'rest_framework' not in arr:
-        arr.append('rest_framework')
     for app in app_name:
         if app not in arr:
             arr.append(app)
@@ -77,10 +73,7 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')\n"
 
 
 
-    # # MIDDLEWARE
-    # 'livereload.middleware.LiveReloadScript'
-    
-
+ 
     for i in range(len(contents)):
         if "MIDDLEWARE = [" in contents[i]:
             middleware_apps = 1
@@ -93,8 +86,6 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')\n"
         contents[i] = contents[i].strip().replace("\',",'').replace("'",'')
         # print('**', contents[i])
         arr.append(contents[i])
-    if 'livereload.middleware.LiveReloadScript' not in arr:
-        arr.append('livereload.middleware.LiveReloadScript')
 
     del contents[start_middleware_index - 1:end_middleware_index+1]
     j = 0

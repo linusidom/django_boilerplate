@@ -1,6 +1,20 @@
 def app_list(app_name, dst):
 
-	content = "\
+	if app_name == 'accounts':
+		content = "\
+{% extends 'accounts/base.html' %}\n\
+{% block content %}\n\
+<h1>accounts List</h1>\n\
+<hr>\n\
+\n\
+<hr>\n\
+{% if user.is_authenticated %}\n\
+<h1>Congratulations You're Logged in</h1>n\
+{% endif %}\n\
+{% endblock %}"
+	
+	else:
+		content = "\
 {% extends '"+app_name+"/base.html' %}\n\
 {% block content %}\n\
 <h1>"+app_name+" List</h1>\n\
