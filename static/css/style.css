@@ -18,59 +18,10 @@ body{
 
 }
 
-.pythonTerminal{
-  position: fixed;
-  top: 55px;
-  z-index: 1;
-  width: 100%;
-}
-.pythonCards {
-  margin-top: 350px;
-}
-
 #main{
   margin-top: 50px;
  
   /*z-index: -1;*/
-}
-
-.card{
-  margin-bottom: 10px;
-}
-
-.card-header {
-  background-color: var(--first);
-}
-.card-header button {
-  color: var(--fifth);
-}
-
-.card-body .card {
-  padding: 10px;
-}
-
-.grid-table{
-  display: grid;
-  grid-gap: 20px;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 2fr));  
-}
-
-.grid-2{
-  display: grid;
-  grid-gap: 20px;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 2fr));
-}
-
-.grid-3 {
-  display: grid;
-  grid-gap: 20px;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 3fr));
-}
-
-.grid-4{
-  display: grid;
-  grid-gap: 20px;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 4fr));
 }
 
 .navbar {
@@ -160,16 +111,4 @@ footer{
   display: inline;
   text-align: right;
   padding-left: 10px;
-}
-
-@media (max-width:600px){
-  .grid-2 {
-    grid-template-columns: 1fr;
-  }
-  .grid-3 {
-    grid-template-columns: 1fr;
-  }
-  .grid-4 {
-    grid-template-columns: 1fr;
-  }
 }
