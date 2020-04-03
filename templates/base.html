@@ -1,30 +1,172 @@
+
 <!DOCTYPE html>
 {% load static %}
 <html>
-<head>
-	<title>BASE</title>
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/mysite.css' %}">
-</head>
-<body>
-<header>
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  	<a class="navbar-brand" href="#">Navbar</a>
-  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    	<span class="navbar-toggler-icon"></span>
-  	</button>
-  	<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    	<div class="navbar-nav">
-			<li><a href="{% url 'index' %}">Index</a></li>
-	</div>
-	</nav>
-</header>
-<div class="container">
-{% block content %}
-{% endblock %}
-</div>
-</body>
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="Demo Project">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>DjangoPy</title>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    </head>
+    <body>
+        <!-- Bootstrap NavBar -->
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#">
+       Logo Goes Here<img src="{% static 'img/logo.png' %}" width="105" height="30" class="d-inline-block align-top" alt="">
+    </a>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link homeLink" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            
+            <!-- This menu is hidden in bigger devices with d-sm-none. 
+           The sidebar isn't proper for smaller screens imo, so this dropdown menu can keep all the useful sidebar itens exclusively for smaller screens  -->
+            <li class="nav-item dropdown d-sm-block d-md-none">
+                <a class="nav-link dropdown-toggle" href="#" id="smallerscreenmenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Menu </a>
+                <div class="dropdown-menu" aria-labelledby="smallerscreenmenu">
+                    <a class="dropdown-item" href="#top">Introduction</a>
+                    <a class="dropdown-item" href="#top">SectionOne</a>
+                    <a class="dropdown-item" href="#top">SectionTwo</a>
+                    <a class="dropdown-item" href="#top">SectionThree</a>
+                </div>
+            </li><!-- Smaller devices menu END -->
+        </ul>
+    </div>
+</nav><!-- NavBar END -->
+<!-- Bootstrap row -->
+<div class="row" id="body-row">
+    <!-- Sidebar -->
+    <div id="sidebar-container" class="sidebar-expanded d-none d-md-block">
+        <!-- d-* hiddens the Sidebar in smaller devices. Its itens can be kept on the Navbar 'Menu' -->
+        <!-- Bootstrap List Group -->
+        <ul class="list-group">
+            <!-- Separator with title -->
+            <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
+                <small>MAIN MENU</small>
+            </li>
+            <!-- /END Separator -->
+            <!-- Menu with submenu -->
+            <a href="#submenu1" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="fas fa-book fa-fw mr-3"></span>
+                    <span class="menu-collapsed heading">Introduction</span>
+                    <span class="ml-auto"><i class="fas fa-caret-down"></i></span>
+                </div>
+            </a>
+            <!-- Submenu content -->
+            <div id='submenu1' class="collapse sidebar-submenu">
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
+                <span class="menu-collapsed subheading">HeadingOne</span></a>
+                <a href="#headingTwo" class="list-group-item list-group-item-action bg-dark text-mutedwhite">
+                    <span class="menu-collapsed subheading">HeadingTwo</span>
+                </a>
+                <a href="#headingThree" class="list-group-item list-group-item-action bg-dark text-white">
+                    <span class="menu-collapsed subheading">HeadingThree</span>
+                </a>
+            </div>
+            <a href="#submenu2" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="fa fa-cogs fa-fw mr-3"></span>
+                    <span class="menu-collapsed heading">SectionOne</span>
+                    <span class="ml-auto"><i class="fas fa-caret-down"></i></span>
+                </div>
+            </a>
+            <!-- Submenu content -->
+            <div id='submenu2' class="collapse sidebar-submenu">
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white"><span class="menu-collapsed subheading">HeadingOne</span></a>
+                
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
+                <span class="menu-collapsed subheading">HeadingTwo</span></a>
+                
+                <a href="#headingThree" class="list-group-item list-group-item-action bg-dark text-white">
+                <span class="menu-collapsed subheading">HeadingThree</span></a>
+            </div>
+            <a href="#submenu3" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="fa fa-file-alt fa-fw mr-3"></span>
+                    <span class="menu-collapsed heading">SectionTwo</span>
+                    <span class="ml-auto"><i class="fas fa-caret-down"></i></span>
+                </div>
+            </a>
+            <!-- Submenu content -->
+            <div id='submenu3' class="collapse sidebar-submenu">
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white"><span class="menu-collapsed subheading">HeadingOne</span></a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white"><span class="menu-collapsed subheading">HeadingTwo</span></a>
+				<a href="#" class="list-group-item list-group-item-action bg-dark text-white"><span class="menu-collapsed">HeadingThree</span></a>
+            </div>
+            <a href="#submenu4" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="fa fa-code fa-fw mr-3"></span>
+                    <span class="menu-collapsed heading">SectionThree</span>
+                    <span class="ml-auto"><i class="fas fa-caret-down"></i></span>
+                </div>
+            </a>
+            <!-- Submenu content -->
+            <div id='submenu4' class="collapse sidebar-submenu">
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white"><span class="menu-collapsed subheading">HeadingOne</span></a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white"><span class="menu-collapsed subheading">HeadingTwo</span></a>
+            </div>
+           
+            <a href="#" class="bg-dark list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="fa fa-tasks fa-fw mr-3"></span>
+                    <span class="menu-collapsed">Tasks (coming soon)</span>
+                </div>
+            </a>
+            <!-- Separator with title -->
+            <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
+                <small>OPTIONS (coming soon)</small>
+            </li>
+            <!-- /END Separator -->
+            <a href="#" class="bg-dark list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="fa fa-calendar fa-fw mr-3"></span>
+                    <span class="menu-collapsed">Calendar (TBD)</span>
+                </div>
+            </a>
+            <a href="#" class="bg-dark list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="fas fa-envelope fa-fw mr-3"></span>
+                    <span class="menu-collapsed">Messages (TBD)<span class="badge badge-pill badge-primary ml-2">5</span></span>
+                </div>
+            </a>
+            <!-- Separator without title -->
+            <li class="list-group-item sidebar-separator menu-collapsed"></li>
+            <!-- /END Separator -->
+            <a href="#" class="bg-dark list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="fa fa-question fa-fw mr-3"></span>
+                    <span class="menu-collapsed">Help (TBD)</span>
+                </div>
+            </a>
+            <a href="#top" data-toggle="sidebar-colapse" class="bg-dark list-group-item list-group-item-action d-flex align-items-center">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span id="collapse-icon" class="fa fa-2x mr-3"></span>
+                    <span id="collapse-text" class="menu-collapsed">Collapse</span>
+                </div>
+            </a>
+        </ul><!-- List Group END-->
+    </div><!-- sidebar-container END -->
+    <!-- MAIN -->
+    <div id='main' class="col p-4">
+        <div id="accordion">
+            {% block content %}
+            {% endblock %}
+        </div><!-- Accordian End -->
+    </div><!-- Main Col END -->
+</div><!-- body-row END -->
+
+    </body>
+    <script src="{% static 'js/main.js' %}"></script>
 </html>
+	

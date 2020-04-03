@@ -49,6 +49,8 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')\n"
     for i in range(start_installed_index, end_installed_index):
         contents[i] = contents[i].strip().replace("\',",'').replace("'",'')
         arr.append(contents[i])
+    if 'rest_framework' not in arr:
+        arr.append('rest_framework')
     for app in app_name:
         if app not in arr:
             arr.append(app)
